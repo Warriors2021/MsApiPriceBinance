@@ -1,11 +1,13 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Header
 from ConexionMongo import conexion_mongo
 import subprocess
 import uvicorn
 import requests
+import os
+import dotenv
 
-from fastapi import Header
 
+dotenv.load_dotenv()
 
 
 
@@ -20,7 +22,7 @@ async def read_root(criptomoneda:str="BTC",date:str="",time:str="",token: str = 
         return {"mensaje": "Token no provisto"}
     else:
 
-        url = 'http://localhost:8000/user/autenticacion/'                
+        url = f'http://{os.getenv("HOST_AUTENTICATE")}:{os.getenv("PORT_AUTENTICATE")}/user/autenticacion/'                
         headers = {'Authorization': f'Token {token}'}
         response = requests.get(url, headers=headers)
 
